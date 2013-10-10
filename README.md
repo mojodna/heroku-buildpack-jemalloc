@@ -12,6 +12,10 @@ build environment (`CPATH`, `LIBRARY_PATH`, etc.) to be set correctly.)
 
 ## Using
 
+To use jemalloc with your app, either prefix commands with `jemalloc.sh <cmd>`
+or set `LD_PRELOAD=/app/vendor/jemalloc/lib/libjemalloc.so.1` in your
+environment (it will then apply to all commands run).
+
 ### Composed
 
 You'll almost certainly want to use this in conjunction with one or more
