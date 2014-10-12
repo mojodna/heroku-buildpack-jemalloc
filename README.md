@@ -49,31 +49,11 @@ git push heroku master
 
 ## Building
 
-jemalloc was built in a [cedar stack
-image](https://github.com/heroku/stack-images) using the following steps.
-
-`chroot` preparation:
+This uses Docker to build against Heroku
+[stack-image](https://github.com/heroku/stack-images)-like images.
 
 ```bash
-mkdir app tmp
-sudo /vagrant/bin/install-stack cedar64-2.0.0.img.gz
-sudo mount -o bind /dev /mnt/stacks/cedar64-2.0.0/dev/
-sudo mount -o bind /home/vagrant/tmp /mnt/stacks/cedar64-2.0.0/tmp/
-sudo mount -o bind /home/vagrant/app /mnt/stacks/cedar64-2.0.0/app/
+make
 ```
 
-jemalloc build/package:
-
-```bash
-cd tmp/
-curl -LO http://www.canonware.com/download/jemalloc/jemalloc-3.4.0.tar.bz2
-sudo chroot /mnt/stacks/cedar64-2.0.0
-cd /tmp
-tar jxf jemalloc-3.4.0.tar.bz2
-cd jemalloc-3.4.0
-./configure --prefix=/app/vendor/jemalloc
-make -j4
-make install_bin install_include install_lib_shared install_lib_static
-cd /app/vendor/jemalloc
-tar zcf /tmp/jemalloc-3.4.0-1.tar.gz .
-```
+Artifacts will be dropped in `dist/`.  See `Dockerfile`s for build options.
