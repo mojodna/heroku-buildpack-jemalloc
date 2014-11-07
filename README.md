@@ -24,7 +24,7 @@ additional buildpack.
 When creating a new Heroku app:
 
 ```bash
-heroku apps:create -b https://github.com/mojodna/heroku-buildpack-multi.git#build-env
+heroku apps:create -b https://github.com/ddollar/heroku-buildpack-multi.git
 
 cat << EOF > .buildpacks
 https://github.com/mojodna/heroku-buildpack-jemalloc.git
@@ -37,7 +37,7 @@ git push heroku master
 When modifying an existing Heroku app:
 
 ```bash
-heroku config:set BUILDPACK_URL=https://github.com/mojodna/heroku-buildpack-multi.git#build-env
+heroku config:set BUILDPACK_URL=https://github.com/ddollar/heroku-buildpack-multi.git
 
 cat << EOF > .buildpacks
 https://github.com/mojodna/heroku-buildpack-jemalloc.git
