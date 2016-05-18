@@ -9,6 +9,12 @@ To use jemalloc with your app, either prefix commands with `jemalloc.sh <cmd>`
 or set `LD_PRELOAD=/app/vendor/jemalloc/lib/libjemalloc.so.1` in your
 environment (it will then apply to all commands run).
 
+Example, in your Procfile:
+
+```
+web: jemalloc.sh bundle exec puma -C config/puma.rb
+```
+
 ### Composed
 
 [Heroku now supports using multiple buildpacks for an app](https://devcenter.heroku.com/articles/using-multiple-buildpacks-for-an-app).
