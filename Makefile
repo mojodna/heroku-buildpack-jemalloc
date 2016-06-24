@@ -1,8 +1,8 @@
 default: cedar-14
 
-cedar-14: dist/cedar-14/jemalloc-3.6.0-1.tar.gz
+cedar-14: dist/cedar-14/jemalloc-4.2.1-1.tar.gz
 
-dist/cedar-14/jemalloc-3.6.0-1.tar.gz: jemalloc-cedar-14
+dist/cedar-14/jemalloc-4.2.1-1.tar.gz: jemalloc-cedar-14
 	docker cp $<:/tmp/jemalloc-cedar-14.tar.gz .
 	mkdir -p $$(dirname $@)
 	mv jemalloc-cedar-14.tar.gz $@
@@ -13,7 +13,7 @@ clean:
 
 src/jemalloc.tar.bz2:
 	mkdir -p $$(dirname $@)
-	curl -sL http://www.canonware.com/download/jemalloc/jemalloc-3.6.0.tar.bz2 -o $@
+	curl -sL https://github.com/jemalloc/jemalloc/releases/download/4.2.1/jemalloc-4.2.1.tar.bz2 -o $@
 
 .PHONY: cedar-14-stack
 
