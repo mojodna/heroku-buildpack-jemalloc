@@ -22,7 +22,7 @@ function vendor() {
 
   echo "Fetching $binary" | indent
   mkdir -p $path
-  curl $binary -s -o - | tar xz -C $path -f -
+  curl -sL $binary -s -o - | tar xz -C $path -f -
 
   [ -d "$path/bin" ] && export PATH=$path/bin:$PATH
   export CPPPATH="$path/include:$CPPPATH"
@@ -35,7 +35,7 @@ function vendor() {
 }
 
 echo "-----> Vendoring binaries"
-vendor "https://github.com/mojodna/heroku-buildpack-jemalloc/releases/download/v4.2.1/jemalloc-4.2.1-1.tar.gz" "$BUILD_DIR/vendor/jemalloc"
+vendor "https://github.com/mojodna/heroku-buildpack-jemalloc/releases/download/4.2.1/jemalloc-4.2.1-1.tar.gz" "$BUILD_DIR/vendor/jemalloc"
 
 echo "-----> Configuring build environment"
 
