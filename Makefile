@@ -1,35 +1,21 @@
-default: cedar-14
+default: dist/jemalloc-4.2.1-1.tar.gz
 
-cedar-14: dist/cedar-14/jemalloc-4.2.1-1.tar.gz
-
-dist/cedar-14/jemalloc-4.2.1-1.tar.gz: jemalloc-cedar-14
-	docker cp $<:/tmp/jemalloc-cedar-14.tar.gz .
+dist/jemalloc-4.2.1-1.tar.gz: jemalloc-cedar
+	docker cp $<:/tmp/jemalloc-cedar.tar.gz .
 	mkdir -p $$(dirname $@)
-	mv jemalloc-cedar-14.tar.gz $@
+	mv jemalloc-cedar.tar.gz $@
 
 clean:
-	rm -rf src/ cedar*/*.sh dist/ jemalloc-cedar*/*.tar.*
-	-docker rm jemalloc-cedar-14
+	rm -rf src/ dist/
+	-docker rm jemalloc-cedar
 
 src/jemalloc.tar.bz2:
 	mkdir -p $$(dirname $@)
 	curl -sL https://github.com/jemalloc/jemalloc/releases/download/4.2.1/jemalloc-4.2.1.tar.bz2 -o $@
 
-.PHONY: cedar-14-stack
+.PHONY: jemalloc-cedar
 
-cedar-14-stack: cedar-14-stack/cedar-14.sh
-	@(docker images -q mojodna/$@ | wc -l | grep 1 > /dev/null) || \
-		docker build --rm -t mojodna/$@ $@
-
-cedar-14-stack/cedar-14.sh:
-	curl -sLR https://raw.githubusercontent.com/heroku/stack-images/master/bin/cedar-14.sh -o $@
-
-.PHONY: jemalloc-cedar-14
-
-jemalloc-cedar-14: cedar-14-stack jemalloc-cedar-14/jemalloc.tar.bz2
-	docker build --rm -t mojodna/$@ $@
+jemalloc-cedar: src/jemalloc.tar.bz2
+	docker build --rm -t mojodna/$@ .
 	-docker rm $@
 	docker run --name $@ mojodna/$@ /bin/echo $@
-
-jemalloc-cedar-14/jemalloc.tar.bz2: src/jemalloc.tar.bz2
-	ln -f $< $@
