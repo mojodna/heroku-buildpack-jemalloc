@@ -15,6 +15,8 @@ Example, in your Procfile:
 web: jemalloc.sh bundle exec puma -C config/puma.rb
 ```
 
+Setting LD_PRELOAD can sometimes mess with the building of an app - if you're seeing errors during slug compilation, try removing LD_PRELOAD and just using `jemalloc.sh`.
+
 ### Composed
 
 [Heroku now supports using multiple buildpacks for an app](https://devcenter.heroku.com/articles/using-multiple-buildpacks-for-an-app).
