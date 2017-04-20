@@ -26,6 +26,15 @@ heroku buildpacks:add --index 1 https://github.com/mojodna/heroku-buildpack-jema
 git push heroku master
 ```
 
+If you're not seeing great results from Jemalloc 4.x, you can try Jemalloc 3.6 instead:
+
+```bash
+heroku buildpacks:add --index 1 https://github.com/mojodna/heroku-buildpack-jemalloc.git#v3.6.0
+git push heroku master
+```
+
+Note that you can also use this syntax to lock your buildpack to a specific release.
+
 ## Building
 
 This uses Docker to build against Heroku
