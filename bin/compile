@@ -24,12 +24,12 @@ function vendor() {
   mkdir -p $path
   curl -sL $binary -s -o - | tar xz -C $path -f -
 
-  [ -d "$path/bin" ] && export PATH=$path/bin:$PATH
-  export CPPPATH="$path/include:$CPPPATH"
-  export CPATH="$path/include:$CPATH"
-  export LIBRARY_PATH="$path/lib:$LIBRARY_PATH"
-  export LD_LIBRARY_PATH="$path/lib:$LD_LIBRARY_PATH"
-  [ -d "$path/lib/pkgconfig" ] && export PKG_CONFIG_PATH="$path/lib/pkgconfig:$PKG_CONFIG_PATH"
+  [ -d "$path/bin" ] && export PATH=$path/bin${PATH:+:${PATH}}
+  export CPPPATH="$path/include${CPPPATH:+:${CPPPATH}}"
+  export CPATH="$path/include${CPATH:+:${CPATH}}"
+  export LIBRARY_PATH="$path/lib${LIBRARY_PATH:+:${LIBRARY_PATH}}"
+  export LD_LIBRARY_PATH="$path/lib${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}"
+  [ -d "$path/lib/pkgconfig" ] && export PKG_CONFIG_PATH="$path/lib/pkgconfig${PKG_CONFIG_PATH:+:${PKG_CONFIG_PATH}}"
 
   true
 }
@@ -40,12 +40,12 @@ vendor "https://github.com/mojodna/heroku-buildpack-jemalloc/releases/download/v
 echo "-----> Configuring build environment"
 
 cat <<EOF > export
-export PATH="$PATH:\$PATH"
-export LD_LIBRARY_PATH="\$LD_LIBRARY_PATH:$LD_LIBRARY_PATH"
-export LIBRARY_PATH="\$LIBRARY_PATH:$LIBRARY_PATH"
-export PKG_CONFIG_PATH="\$PKG_CONFIG_PATH:$PKG_CONFIG_PATH"
-export CPPPATH="\$CPPPATH:$CPPPATH"
-export CPATH="\$CPATH:$CPATH"
+export PATH="${PATH:+${PATH}:}\$PATH"
+export LD_LIBRARY_PATH="\$LD_LIBRARY_PATH${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}"
+export LIBRARY_PATH="\$LIBRARY_PATH${LIBRARY_PATH:+:${LIBRARY_PATH}}"
+export PKG_CONFIG_PATH="\$PKG_CONFIG_PATH${PKG_CONFIG_PATH:+:${PKG_CONFIG_PATH}}"
+export CPPPATH="\$CPPPATH${CPPPATH:+:${CPPPATH}}"
+export CPATH="\$CPATH${CPATH:+:${CPATH}}"
 EOF
 
 echo "-----> Building runtime environment"
@@ -53,9 +53,9 @@ mkdir -p $BUILD_DIR/.profile.d
 
 cat <<EOF > $BUILD_DIR/.profile.d/$BUILDPACK_NAME.sh
 export PATH="${PATH//$BUILD_DIR//app}:\$PATH"
-export LD_LIBRARY_PATH="\$LD_LIBRARY_PATH:${LD_LIBRARY_PATH//$BUILD_DIR//app}"
-export LIBRARY_PATH="\$LIBRARY_PATH:${LIBRARY_PATH//$BUILD_DIR//app}"
-export PKG_CONFIG_PATH="\$PKG_CONFIG_PATH:${PKG_CONFIG_PATH//$BUILD_DIR//app}"
-export CPPPATH="\$CPPPATH:${CPPPATH//$BUILD_DIR//app}"
-export CPATH="\$CPATH:${CPATH//$BUILD_DIR//app}"
+export LD_LIBRARY_PATH="\${LD_LIBRARY_PATH:+${LD_LIBRARY_PATH}:}${LD_LIBRARY_PATH//$BUILD_DIR//app}"
+export LIBRARY_PATH="\${LIBRARY_PATH:+${LIBRARY_PATH}:}${LIBRARY_PATH//$BUILD_DIR//app}"
+export PKG_CONFIG_PATH="\${PKG_CONFIG_PATH:+${PKG_CONFIG_PATH}:}${PKG_CONFIG_PATH//$BUILD_DIR//app}"
+export CPPPATH="\${CPPPATH:+${CPPPATH}:}${CPPPATH//$BUILD_DIR//app}"
+export CPATH="\${CPATH:+${CPATH}:}${CPATH//$BUILD_DIR//app}"
 EOF
