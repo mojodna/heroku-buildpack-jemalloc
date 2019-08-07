@@ -3,6 +3,14 @@
 I am a Heroku buildpack that installs
 [jemalloc](http://www.canonware.com/jemalloc/) into a dyno slug.
 
+## Unmaintained :wave:
+
+This Heroku buildpack is no longer actively maintained. It should continue to
+work but won't see changes as updates to Heroku or jemalloc are released.
+
+Consider switching to [gaffneyc/heroku-buildpack-jemalloc](https://github.com/gaffneyc/heroku-buildpack-jemalloc/)
+if you run into problems or want to try a [newer release of jemalloc](https://github.com/jemalloc/jemalloc/releases).
+
 ## Using
 
 To use jemalloc with your app, either prefix commands with `jemalloc.sh <cmd>`
